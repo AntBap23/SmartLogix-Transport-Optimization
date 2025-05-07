@@ -6,8 +6,8 @@ SmartLogix is a full-stack, end-to-end supply chain and operations research plat
 ## 🛠️ Tech Stack
 - **Backend:** Python (Pandas, Scikit-learn, Google OR-Tools, dbt)
 - **Database:** PostgreSQL, MongoDB
-- **Frontend:** Streamlit (or Power BI dashboard)
-- **Deployment:** Docker, Render or GCP
+- **Frontend:** Streamlit
+- **Deployment:** Docker, Render
 - **Data Sources:** OpenStreetMap, Open-Meteo API, DOT Freight Data
 
 ## 📦 Key Features
