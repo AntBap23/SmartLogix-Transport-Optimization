@@ -1,27 +1,27 @@
-# SmartLogix Transport Optimization Database
+# SmartLogix Transport Optimization Data Management
 
-This directory contains the database setup and management scripts for the SmartLogix Transport Optimization project.
+This directory contains the data loading and management scripts for the SmartLogix Transport Optimization project, optimized for Databricks.
 
 ## Quick Start
 
-### 1. Setup Database
+### 1. Databricks Setup
 ```bash
-# Run the automated setup script
-python db/setup_database.py
-```
-
-### 2. Manual Setup (Alternative)
-```bash
-# Start PostgreSQL with Docker Compose
-docker-compose up -d
-
-# Load data
+# Load data into Databricks tables
 python db/load_data.py
 ```
 
-## Database Structure
+### 2. Local Development (Alternative)
+```bash
+# Install dependencies
+pip install -r requirements.txt
 
-### Tables
+# Load data (will create parquet files)
+python db/load_data.py
+```
+
+## Data Structure
+
+### Databricks Tables
 - **delhivery_data**: Transport trip data with timing and efficiency metrics
 - **distance_data**: Distance matrix between cities/locations
 - **order_data**: Order information with source, destination, and deadlines
@@ -29,30 +29,23 @@ python db/load_data.py
 - **weather_data**: Weather conditions for route optimization
 - **inventory_data**: Inventory levels and product information
 
-### Views
+### Data Formats
+- **Delta Tables**: For Databricks optimized storage and ACID transactions
+- **Parquet Files**: For efficient columnar storage and analytics
+- **CSV Files**: Original data format in `data/raw/` directory
+
+### Spark SQL Views
 - **transport_summary**: Aggregated transport metrics by route
 - **order_summary**: Order statistics by source-destination pairs
 - **dashboard_analytics**: Key performance indicators for dashboard
 
-### Functions
-- **calculate_transport_efficiency()**: Calculate efficiency for specific routes
-- **get_route_distance()**: Get distance between two locations
-- **get_data_quality_metrics()**: Generate data quality reports
-- **get_transport_analytics()**: Get comprehensive transport analytics
+## Databricks Connection
 
-## Database Connection
-
-### Connection Details
-- **Host**: localhost
-- **Port**: 5432
-- **Database**: smartlogix_transport
-- **Username**: smartlogix_user
-- **Password**: smartlogix_password
-
-### PgAdmin Access
-- **URL**: http://localhost:8080
-- **Email**: admin@smartlogix.com
-- **Password**: admin123
+### Workspace Setup
+- **Platform**: Databricks Workspace
+- **Cluster**: Python 3.9+ with Spark 3.4+
+- **Storage**: DBFS (Databricks File System)
+- **Tables**: Managed Delta tables in default catalog
 
 ## Data Loading
 

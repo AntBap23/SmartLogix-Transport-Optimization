@@ -1,7 +1,7 @@
 
 # 🚚 SmartLogix Transport Optimization
 
-SmartLogix is an intelligent routing and logistics optimization platform built with **Python**, **PostgreSQL**, and **Streamlit**, leveraging **Google OR-Tools** for route solving and **machine learning models** for delay prediction. The platform is fully containerized with **Docker** and orchestrated using **docker-compose**.
+SmartLogix is an intelligent routing and logistics optimization platform built with **Python**, **Databricks**, and **Streamlit**, leveraging **Google OR-Tools** for route solving and **machine learning models** for delay prediction. The platform is optimized for **Databricks** cloud computing environment with **Apache Spark** for big data processing.
 
 ---
 
@@ -44,8 +44,9 @@ smartlogix-transport-optimization/
 | Geospatial Routing | Custom distance matrix, time windows             |
 | Prediction Model   | scikit-learn, pandas, delay classification       |
 | Dashboard          | Streamlit for route/KPI visualization            |
-| Storage            | PostgreSQL for route and delivery data           |
-| Deployment         | Docker + docker-compose                          |
+| Storage            | Databricks Delta Tables, Parquet files           |
+| Processing         | Apache Spark, PySpark for big data               |
+| Deployment         | Databricks Workspace                             |
 
 ---
 
@@ -58,26 +59,29 @@ git clone https://github.com/AntBap23/SmartLogix-Transport-Optimization.git
 cd SmartLogix-Transport-Optimization
 ````
 
-### 2. Setup Environment Variables
+### 2. Setup Databricks Environment
 
-Create a `.env` file in the root directory:
+#### Option A: Databricks Workspace
+1. Create a new Databricks workspace
+2. Create a cluster with Python 3.9+ and Spark 3.4+
+3. Install required libraries from `requirements.txt`
 
-```env
-POSTGRES_USER=smartlogix
-POSTGRES_PASSWORD=your_password
-POSTGRES_DB=logistics
+#### Option B: Local Development
+```bash
+pip install -r requirements.txt
 ```
 
-### 3. Start Docker Services
+### 3. Load Data
 
 ```bash
-docker-compose up --build
+# Load data into Databricks tables
+python db/load_data.py
 ```
 
-This spins up:
-
-* PostgreSQL container (preloaded with schema + delivery data)
-* Streamlit container for the dashboard interface
+This will:
+* Load CSV data into Databricks Delta tables
+* Process and clean the data using Spark
+* Create optimized parquet files for analysis
 
 ---
 
@@ -85,11 +89,13 @@ This spins up:
 
 * Upload delivery data or use provided datasets from `data/`
 * Configure routing parameters (number of vehicles, time windows, capacity)
+* Run optimization algorithms using Databricks notebooks
 * Launch the Streamlit app and visualize:
 
   * Optimized routes on a map
   * KPIs like total route distance and predicted delays
 * Use the delay prediction module to flag high-risk deliveries
+* Leverage Spark for large-scale data processing and ML model training
 
 ---
 
@@ -133,12 +139,29 @@ pytest tests/
 
 ---
 
+## 📓 Databricks Notebooks
+
+The project includes ready-to-use Databricks notebooks:
+
+* **`notebooks/01_data_loading.py`** - Load and process data into Delta tables
+* **`notebooks/02_route_optimization.py`** - Implement route optimization with OR-Tools
+
+### Running Notebooks in Databricks
+
+1. Upload notebooks to your Databricks workspace
+2. Create a cluster with Python 3.9+ and Spark 3.4+
+3. Install required libraries from `requirements.txt`
+4. Upload data files to DBFS or use external storage
+5. Run notebooks sequentially for complete setup
+
 ## 🔮 Future Roadmap
 
 * Add traffic-aware routing using OSRM or Google Maps API
 * Export routes in JSON/GeoJSON for external mapping tools
 * Support clustering-based delivery zoning
 * Add REST API to serve model predictions externally
+* Implement MLflow for model versioning and deployment
+* Add real-time streaming data processing
 
 ---
 

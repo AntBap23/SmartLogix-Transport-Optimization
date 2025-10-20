@@ -1,20 +1,37 @@
 #!/usr/bin/env python3
 """
-Data Loading Script for SmartLogix Transport Optimization Database
-This script loads CSV data into PostgreSQL database tables.
+Data Loading Script for SmartLogix Transport Optimization
+This script loads CSV data into Databricks tables or external databases.
 """
 
 import os
 import sys
 import pandas as pd
-import psycopg2
-from psycopg2.extras import execute_values
-from sqlalchemy import create_engine
 import logging
 from typing import Optional, Dict, Any
 import numpy as np
 from datetime import datetime
 import warnings
+
+# Databricks imports
+try:
+    from pyspark.sql import SparkSession
+    from pyspark.sql.types import *
+    from pyspark.sql.functions import *
+    SPARK_AVAILABLE = True
+except ImportError:
+    SPARK_AVAILABLE = False
+    print("PySpark not available. Using pandas-only mode.")
+
+# External database imports (optional)
+try:
+    import psycopg2
+    from psycopg2.extras import execute_values
+    from sqlalchemy import create_engine
+    DB_AVAILABLE = True
+except ImportError:
+    DB_AVAILABLE = False
+    print("Database connectors not available. Using file-based mode.")
 
 # Suppress warnings for cleaner output
 warnings.filterwarnings('ignore')
@@ -26,46 +43,70 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-class DatabaseLoader:
-    """Database loader for SmartLogix transport data."""
+class DataLoader:
+    """Data loader for SmartLogix transport data - Databricks compatible."""
     
     def __init__(self, 
-                 host: str = "localhost",
-                 port: int = 5432,
-                 database: str = "smartlogix_transport",
-                 user: str = "smartlogix_user",
-                 password: str = "smartlogix_password"):
-        """Initialize database connection."""
-        self.host = host
-        self.port = port
-        self.database = database
-        self.user = user
-        self.password = password
+                 use_databricks: bool = True,
+                 external_db_config: Optional[Dict] = None):
+        """Initialize data loader."""
+        self.use_databricks = use_databricks
+        self.external_db_config = external_db_config
+        self.spark = None
         self.engine = None
         self.connection = None
         
-    def connect(self) -> bool:
-        """Establish database connection."""
+        if use_databricks and SPARK_AVAILABLE:
+            self._init_spark()
+        elif external_db_config and DB_AVAILABLE:
+            self._init_external_db()
+    
+    def _init_spark(self):
+        """Initialize Spark session for Databricks."""
         try:
-            # SQLAlchemy engine for pandas operations
-            connection_string = f"postgresql://{self.user}:{self.password}@{self.host}:{self.port}/{self.database}"
+            self.spark = SparkSession.builder \
+                .appName("SmartLogixTransportOptimization") \
+                .config("spark.sql.adaptive.enabled", "true") \
+                .config("spark.sql.adaptive.coalescePartitions.enabled", "true") \
+                .getOrCreate()
+            logger.info("Spark session initialized successfully")
+        except Exception as e:
+            logger.error(f"Failed to initialize Spark session: {e}")
+            self.spark = None
+    
+    def _init_external_db(self):
+        """Initialize external database connection."""
+        if not self.external_db_config:
+            return
+            
+        try:
+            config = self.external_db_config
+            connection_string = f"postgresql://{config['user']}:{config['password']}@{config['host']}:{config['port']}/{config['database']}"
             self.engine = create_engine(connection_string)
             
-            # Direct psycopg2 connection for custom operations
             self.connection = psycopg2.connect(
-                host=self.host,
-                port=self.port,
-                database=self.database,
-                user=self.user,
-                password=self.password
+                host=config['host'],
+                port=config['port'],
+                database=config['database'],
+                user=config['user'],
+                password=config['password']
             )
             
-            logger.info("Database connection established successfully")
-            return True
-            
+            logger.info("External database connection established successfully")
         except Exception as e:
-            logger.error(f"Failed to connect to database: {e}")
-            return False
+            logger.error(f"Failed to connect to external database: {e}")
+    
+    def connect(self) -> bool:
+        """Establish connection (Spark or external DB)."""
+        if self.use_databricks and self.spark:
+            logger.info("Using Databricks/Spark for data processing")
+            return True
+        elif self.engine and self.connection:
+            logger.info("Using external database connection")
+            return True
+        else:
+            logger.info("Using file-based processing mode")
+            return True
     
     def disconnect(self):
         """Close database connections."""
@@ -131,19 +172,32 @@ class DatabaseLoader:
         logger.info(f"Data cleaning completed. Shape: {df.shape}")
         return df
     
-    def load_delhivery_data(self, file_path: str) -> bool:
+    def load_delhivery_data(self, file_path: str, table_name: str = 'delhivery_data') -> bool:
         """Load Delhivery data from CSV."""
         try:
             logger.info(f"Loading Delhivery data from {file_path}")
-            df = pd.read_csv(file_path)
             
-            # Clean the data
-            df = self.clean_data(df, 'delhivery_data')
+            if self.use_databricks and self.spark:
+                # Load with Spark
+                df_spark = self.spark.read.option("header", "true").csv(file_path)
+                df_spark.write.mode("overwrite").saveAsTable(table_name)
+                count = df_spark.count()
+                logger.info(f"Successfully loaded {count} Delhivery records to Databricks table")
+            else:
+                # Load with pandas
+                df = pd.read_csv(file_path)
+                df = self.clean_data(df, 'delhivery_data')
+                
+                if self.engine:
+                    df.to_sql(table_name, self.engine, if_exists='append', index=False, method='multi')
+                else:
+                    # Save as parquet for Databricks compatibility
+                    output_path = file_path.replace('.csv', '_processed.parquet')
+                    df.to_parquet(output_path, index=False)
+                    logger.info(f"Saved processed data to {output_path}")
+                
+                logger.info(f"Successfully loaded {len(df)} Delhivery records")
             
-            # Load to database
-            df.to_sql('delhivery_data', self.engine, if_exists='append', index=False, method='multi')
-            
-            logger.info(f"Successfully loaded {len(df)} Delhivery records")
             return True
             
         except Exception as e:
@@ -297,11 +351,11 @@ def main():
         'inventory_2': os.path.join(data_dir, 'Model Sample Data - Retail Inventory.xlsx')
     }
     
-    # Initialize loader
-    loader = DatabaseLoader()
+    # Initialize loader for Databricks
+    loader = DataLoader(use_databricks=True)
     
     if not loader.connect():
-        logger.error("Failed to connect to database. Please check your connection settings.")
+        logger.error("Failed to initialize data loader.")
         return False
     
     try:

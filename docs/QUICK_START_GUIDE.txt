@@ -1,0 +1,133 @@
+SMARTLOGIX DATABRICKS SQL - QUICK START GUIDE
+==============================================
+
+This guide will help you quickly set up and load your transport optimization data into Databricks SQL.
+
+PREREQUISITES
+-------------
+1. Databricks workspace access
+2. SQL Warehouse created in Databricks
+3. Python environment with required packages
+
+QUICK SETUP (3 Steps)
+---------------------
+
+STEP 1: CLEAN YOUR DATA
+-----------------------
+Run the data cleaning script to process raw CSV files:
+
+```bash
+python data_cleaner.py
+```
+
+This will:
+- Clean and validate all CSV data
+- Create processed files in data/processed/ folder
+- Generate a data quality report
+- Handle missing values and data type conversions
+
+Expected output files:
+- delhivery_cleaned.csv
+- distance_cleaned.csv
+- orders_cleaned.csv (combined small + large)
+- supply_chain_cleaned.csv
+- weather_cleaned.csv (sample data)
+- inventory_cleaned.csv
+
+STEP 2: UPLOAD TO DATABRICKS
+----------------------------
+1. Go to your Databricks workspace
+2. Navigate to "Data" → "Create" → "Table"
+3. Upload each cleaned CSV file to DBFS:
+   - Path: /FileStore/shared_uploads/smartlogix/processed/
+   - Upload all files from data/processed/ folder
+
+STEP 3: EXECUTE SQL COMMANDS
+----------------------------
+1. Go to "SQL Editor" in Databricks
+2. Copy and paste the contents of databricks_sql_commands.sql
+3. Execute the commands in order:
+   - Create database and schema
+   - Create tables
+   - Load data (COPY INTO commands)
+   - Create analytics views
+   - Verify data loading
+
+ALTERNATIVE: AUTOMATED PIPELINE
+-------------------------------
+For automated setup, run the complete pipeline:
+
+```bash
+python run_data_pipeline.py
+```
+
+This will run both data cleaning and Databricks loading automatically.
+
+VERIFICATION
+------------
+After setup, verify your data with these queries:
+
+```sql
+-- Check record counts
+SELECT 'delhivery_data' as table, COUNT(*) as records 
+FROM smartlogix.transport_data.delhivery_data
+UNION ALL
+SELECT 'order_data', COUNT(*) FROM smartlogix.transport_data.order_data;
+
+-- View transport summary
+SELECT * FROM smartlogix.transport_data.transport_summary LIMIT 10;
+
+-- Check dashboard analytics
+SELECT * FROM smartlogix.transport_data.dashboard_analytics;
+```
+
+EXPECTED RESULTS
+----------------
+- Delhivery data: ~144,000+ transport records
+- Distance data: ~3,700+ city pairs
+- Order data: Combined small and large orders
+- Supply chain data: Business metrics and KPIs
+- Weather data: Sample weather conditions
+- Inventory data: Product and stock information
+
+TROUBLESHOOTING
+---------------
+
+1. **Data cleaning fails:**
+   - Check that raw CSV files exist in data/raw/
+   - Verify file permissions
+   - Check for corrupted CSV files
+
+2. **Upload to DBFS fails:**
+   - Ensure you have write permissions to DBFS
+   - Check file size limits (max 2GB)
+   - Verify file paths are correct
+
+3. **SQL execution fails:**
+   - Check SQL Warehouse is running
+   - Verify you have CREATE TABLE permissions
+   - Ensure file paths in COPY INTO commands are correct
+
+4. **Data loading issues:**
+   - Check CSV headers match table schema
+   - Verify data types are compatible
+   - Look for special characters in data
+
+FILES CREATED
+-------------
+- DATABRICKS_SQL_SETUP.txt - Detailed setup instructions
+- data_cleaner.py - Data cleaning script
+- databricks_sql_loader.py - Automated loading script
+- databricks_sql_commands.sql - Manual SQL commands
+- run_data_pipeline.py - Complete pipeline script
+
+NEXT STEPS
+----------
+1. Explore the data using SQL queries
+2. Create visualizations and dashboards
+3. Implement route optimization algorithms
+4. Build machine learning models
+5. Set up automated data pipelines
+
+For detailed instructions, see DATABRICKS_SQL_SETUP.txt
+For technical support, check the project documentation.

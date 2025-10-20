@@ -35,4 +35,13 @@ if __name__ == "__main__":
     end_date = "2023-07-03"
 
     df_weather = fetch_weather(lat, lon, start_date, end_date)
+    print("Weather data fetched successfully!")
+    print(f"Data shape: {df_weather.shape}")
+    print("\nFirst 5 rows:")
     print(df_weather.head())
+    
+    # Save to CSV
+    csv_filename = f"weather_data_{start_date}_to_{end_date}.csv"
+    df_weather.to_csv(csv_filename, index=False)
+    print(f"\nWeather data saved to: {csv_filename}")
+    print(f"Total records: {len(df_weather)}")

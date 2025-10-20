@@ -1,0 +1,204 @@
+SMARTLOGIX DATABRICKS SQL - FREE EDITION QUICK START
+====================================================
+
+This guide is specifically optimized for Databricks FREE EDITION with its limitations.
+
+FREE EDITION LIMITATIONS
+-------------------------
+- Limited compute hours per month (typically 15-20 hours)
+- File size limit: ~2GB per file
+- No Unity Catalog (uses default catalog)
+- Limited storage space
+- No serverless compute
+- Auto-stop warehouse after 10 minutes
+
+QUICK SETUP (3 Steps)
+---------------------
+
+STEP 1: CLEAN YOUR DATA (FREE EDITION OPTIMIZED)
+------------------------------------------------
+Run the free edition data cleaning script:
+
+```bash
+python data_cleaner_free_edition.py
+```
+
+This will:
+- Clean and validate all CSV data
+- Split large files into smaller chunks (50K records max per file)
+- Create processed files in data/processed/ folder
+- Generate sample weather and inventory data
+- Create a data quality report
+
+Expected output files:
+- delhivery_cleaned_part_1.csv, part_2.csv, etc. (if large)
+- distance_cleaned.csv
+- order_small_cleaned.csv
+- order_large_cleaned.csv
+- supply_chain_cleaned.csv
+- weather_cleaned.csv (sample data)
+- inventory_cleaned.csv (sample data)
+
+STEP 2: UPLOAD TO DATABRICKS (FREE EDITION)
+-------------------------------------------
+1. Go to your Databricks workspace
+2. Navigate to "Data" → "Create" → "Table"
+3. Upload each cleaned CSV file to DBFS:
+   - Path: /FileStore/shared_uploads/smartlogix/processed/
+   - Upload files one by one (free edition has upload limits)
+   - Note: If delhivery data was split, upload all parts
+
+IMPORTANT FREE EDITION NOTES:
+- Upload files individually to avoid timeouts
+- Check file sizes before uploading (should be <2GB each)
+- Free edition has limited storage space
+
+STEP 3: EXECUTE SQL COMMANDS (FREE EDITION)
+-------------------------------------------
+1. Go to "SQL Editor" in Databricks
+2. Copy and paste the contents of databricks_sql_commands_free_edition.sql
+3. Execute commands in order:
+   - Create database and schema
+   - Create tables
+   - Load data (COPY INTO commands)
+   - Create analytics views
+   - Verify data loading
+
+IMPORTANT: Stop your SQL warehouse when not in use to save credits!
+
+VERIFICATION (FREE EDITION)
+---------------------------
+After setup, verify your data with these queries:
+
+```sql
+-- Check record counts (with limits for free edition)
+SELECT 'delhivery_data' as table, COUNT(*) as records 
+FROM smartlogix.transport_data.delhivery_data
+LIMIT 1000;
+
+-- View transport summary (limited)
+SELECT * FROM smartlogix.transport_data.transport_summary LIMIT 10;
+
+-- Check dashboard analytics
+SELECT * FROM smartlogix.transport_data.dashboard_analytics;
+```
+
+EXPECTED RESULTS (FREE EDITION)
+-------------------------------
+- Delhivery data: Split into multiple files if >50K records
+- Distance data: ~3,700+ city pairs
+- Order data: Small and large orders
+- Supply chain data: Business metrics
+- Weather data: 8 sample records
+- Inventory data: 20 sample records
+
+FREE EDITION OPTIMIZATION TIPS
+------------------------------
+
+1. **Save Compute Credits:**
+   - Always use LIMIT in queries
+   - Stop SQL warehouse when not in use
+   - Use sample data for testing
+
+2. **File Management:**
+   - Split large files before uploading
+   - Use compressed formats when possible
+   - Clean data locally before uploading
+
+3. **Query Optimization:**
+   - Use LIMIT clauses in all queries
+   - Avoid complex aggregations on large datasets
+   - Use sample data for development
+
+4. **Storage Management:**
+   - Delete unnecessary files from DBFS
+   - Use Delta format for better compression
+   - Monitor storage usage
+
+EXAMPLE QUERIES (FREE EDITION)
+------------------------------
+
+```sql
+-- Sample transport data (limited)
+SELECT * FROM smartlogix.transport_data.delhivery_data 
+WHERE source_center = 'IND388121AAA' 
+LIMIT 100;
+
+-- Top routes (limited)
+SELECT 
+    source_center,
+    destination_center,
+    trip_count
+FROM smartlogix.transport_data.transport_summary
+ORDER BY trip_count DESC
+LIMIT 10;
+
+-- Order summary (limited)
+SELECT 
+    destination,
+    order_size,
+    COUNT(*) as order_count
+FROM smartlogix.transport_data.order_data
+GROUP BY destination, order_size
+LIMIT 20;
+```
+
+TROUBLESHOOTING (FREE EDITION)
+------------------------------
+
+1. **Upload fails:**
+   - Check file size (<2GB)
+   - Upload files one at a time
+   - Check available storage space
+
+2. **Query timeout:**
+   - Add LIMIT clauses
+   - Use smaller datasets
+   - Check warehouse status
+
+3. **Compute credits exhausted:**
+   - Wait for monthly reset
+   - Use sample data only
+   - Consider upgrading to paid tier
+
+4. **Storage full:**
+   - Delete old files from DBFS
+   - Use compressed formats
+   - Clean up unnecessary data
+
+FILES FOR FREE EDITION
+----------------------
+- data_cleaner_free_edition.py - Optimized data cleaning
+- databricks_sql_commands_free_edition.sql - Free edition SQL commands
+- QUICK_START_FREE_EDITION.txt - This guide
+
+NEXT STEPS (FREE EDITION)
+-------------------------
+1. Start with sample data and small queries
+2. Test your optimization algorithms on limited datasets
+3. Consider upgrading to paid tier for full-scale analysis
+4. Use local development for heavy processing
+5. Focus on proof-of-concept rather than production workloads
+
+UPGRADE CONSIDERATIONS
+----------------------
+If you need more capacity, consider upgrading to:
+- Databricks Standard (more compute hours)
+- Databricks Premium (full features)
+- Databricks Enterprise (production features)
+
+For detailed instructions, see DATABRICKS_SQL_SETUP.txt
+For technical support, check the project documentation.
+
+FREE EDITION SUCCESS TIPS
+-------------------------
+✅ Use the free edition data cleaner
+✅ Split large files into smaller chunks
+✅ Always use LIMIT in queries
+✅ Stop warehouse when not in use
+✅ Start with sample data
+✅ Focus on proof-of-concept
+❌ Don't try to load massive datasets
+❌ Don't run long-running queries
+❌ Don't forget to stop the warehouse
+
