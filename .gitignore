@@ -45,6 +45,9 @@ data/coherent/delhivery_cleaned.csv
 # Temporary files
 *.tmp
 temp_*
-route_optimization_map.html
-route_optimization_chart.html
+
+# Keep route visualization HTML files (needed for dashboard)
+# app/dashboard/route_visuals/*.html
+# route_optimization_map.html
+# route_optimization_chart.html
 
