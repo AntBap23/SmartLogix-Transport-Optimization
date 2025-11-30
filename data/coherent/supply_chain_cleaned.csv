@@ -1,0 +1,56 @@
+product_type,sku,price,availability,number_of_products_sold,revenue_generated,customer_demographics,stock_levels,lead_times,order_quantities,shipping_times,shipping_carriers,shipping_costs,supplier_name,location,lead_time,production_volumes,manufacturing_lead_time,manufacturing_costs,inspection_results,defect_rates,transportation_modes,routes,costs
+Electronics,PROD001,1310.17,528,293,62934.25,Rural,494,1,535,3,Local,173.92,Supplier_A,Hyderabad_WH,10,9597,17,157.95,Minor Issues,1.72,Truck,Hyderabad_WH_to_Jaipur_Hub,5633.47
+Electronics,PROD001,1405.52,535,221,223448.2,Mixed,1350,3,724,6,UPS,244.17,Supplier_B,Mumbai_Warehouse,6,5821,15,141.25,Pass,0.68,Truck,Mumbai_Warehouse_to_Surat_Hub,8001.1
+Electronics,PROD001,953.76,719,154,284439.0,Rural,861,3,628,2,UPS,297.92,Supplier_C,Pune_Facility,7,5430,16,228.46,Pass,0.69,Truck,Pune_Facility_to_Vadodara_Center,2197.55
+Electronics,PROD001,4457.98,681,280,320640.12,Rural,539,3,790,3,UPS,333.37,Supplier_E,Nagpur_Distribution,7,4178,17,754.77,Minor Issues,0.78,Truck,Nagpur_Distribution_to_Ranchi_Distribution,3904.16
+Electronics,PROD002,921.31,998,291,126107.69,Urban,1512,5,761,6,FedEx,422.35,Supplier_A,Pune_Facility,11,5337,11,593.61,Minor Issues,1.63,Truck,Pune_Facility_to_Chandigarh_Facility,2803.36
+Electronics,PROD002,1907.51,251,75,178916.17,Mixed,308,12,480,5,Local,189.46,Supplier_B,Kolkata_Center,2,5481,9,840.08,Pass,0.38,Truck,Kolkata_Center_to_Hyderabad_WH,4151.72
+Electronics,PROD002,1396.46,380,190,140186.18,Urban,1367,13,228,5,DHL,467.62,Supplier_C,Amritsar_DC,2,3510,13,646.4,Pass,0.19,Truck,Amritsar_DC_to_Kolkata_Center,8641.47
+Electronics,PROD002,3700.96,830,298,233210.45,Urban,1587,8,375,5,Local,57.68,Supplier_E,Amritsar_DC,3,8059,25,956.12,Pass,1.51,Truck,Amritsar_DC_to_Chennai_Distribution,7837.31
+Electronics,PROD003,3347.43,580,156,194918.0,Rural,660,14,529,1,DHL,334.22,Supplier_B,Chennai_Distribution,12,6893,29,288.05,Minor Issues,1.06,Truck,Chennai_Distribution_to_Ranchi_Distribution,1333.78
+Electronics,PROD003,4371.08,149,466,433441.46,Mixed,1586,1,490,7,DHL,53.64,Supplier_C,Chandigarh_Facility,13,6613,19,536.29,Pass,2.0,Van,Chandigarh_Facility_to_Amritsar_DC,4922.85
+Electronics,PROD003,2617.64,205,382,415255.22,Mixed,1899,12,185,2,FedEx,260.85,Supplier_E,Chennai_Distribution,11,8095,9,142.94,Pass,0.43,Bike,Chennai_Distribution_to_Chandigarh_Facility,4801.29
+Apparel,PROD004,1420.29,563,265,302417.94,Urban,786,12,480,5,Local,275.28,Supplier_A,Bhopal_DC,5,5513,29,629.23,Pass,0.66,Bike,Bhopal_DC_to_Amritsar_DC,6992.71
+Apparel,PROD004,2879.63,100,114,362265.1,Mixed,786,9,286,1,Local,74.04,Supplier_B,Chennai_Distribution,12,1959,12,210.68,Pass,1.87,Truck,Chennai_Distribution_to_Patna_WH,6879.88
+Apparel,PROD004,2042.02,348,423,378564.52,Urban,1167,7,118,3,DHL,238.94,Supplier_C,Pune_Facility,2,6130,13,495.5,Pass,1.42,Bike,Pune_Facility_to_Vadodara_Center,6850.21
+Apparel,PROD004,2364.49,253,356,282027.4,Rural,318,12,813,5,DHL,120.85,Supplier_E,Bangalore_Hub,12,9899,20,417.36,Pass,0.43,Bike,Bangalore_Hub_to_Hyderabad_WH,9480.22
+Apparel,PROD005,3174.12,790,170,396594.82,Rural,1479,9,640,2,DHL,306.96,Supplier_A,Vadodara_Center,8,1967,22,921.05,Minor Issues,0.64,Truck,Vadodara_Center_to_Bangalore_Hub,2493.29
+Apparel,PROD005,4830.16,150,95,139536.44,Urban,1649,12,855,6,FedEx,485.31,Supplier_D,Nagpur_Distribution,1,1292,21,834.92,Minor Issues,0.85,Truck,Nagpur_Distribution_to_Jaipur_Hub,6593.72
+Apparel,PROD005,3257.38,714,373,332866.32,Mixed,865,11,395,3,UPS,264.99,Supplier_E,Chandigarh_Facility,12,9258,23,740.36,Pass,0.35,Truck,Chandigarh_Facility_to_Kanpur_WH,4324.81
+Apparel,PROD006,3485.22,921,213,170636.36,Mixed,255,10,531,2,UPS,324.29,Supplier_A,Indore_Facility,9,6286,26,769.51,Pass,0.81,Van,Indore_Facility_to_Chennai_Distribution,5710.18
+Apparel,PROD006,2164.06,785,108,248228.96,Rural,1884,8,427,3,Local,218.59,Supplier_B,Chandigarh_Facility,4,2040,8,724.68,Pass,1.61,Bike,Chandigarh_Facility_to_Lucknow_Center,4376.36
+Apparel,PROD006,4382.81,692,134,82935.67,Rural,501,8,356,5,DHL,392.39,Supplier_D,Delhi_DC,2,8431,26,799.96,Pass,1.89,Truck,Delhi_DC_to_Nagpur_Distribution,2486.91
+Apparel,PROD006,2061.76,818,269,142347.25,Mixed,692,7,593,6,Local,66.56,Supplier_E,Jaipur_Hub,8,2612,17,586.68,Pass,1.79,Truck,Jaipur_Hub_to_Kolkata_Center,9197.43
+Food,PROD007,2676.64,217,221,241867.07,Mixed,347,5,317,4,FedEx,311.63,Supplier_B,Amritsar_DC,12,8036,16,379.41,Pass,1.96,Truck,Amritsar_DC_to_Bangalore_Hub,3213.61
+Food,PROD007,1350.59,528,210,270879.34,Mixed,853,2,409,5,FedEx,194.7,Supplier_C,Ahmedabad_DC,14,3401,29,762.57,Minor Issues,1.82,Bike,Ahmedabad_DC_to_Vadodara_Center,7356.43
+Food,PROD007,1355.17,867,210,328147.4,Urban,978,6,373,4,Local,240.85,Supplier_D,Chandigarh_Facility,1,7225,27,886.7,Minor Issues,1.67,Bike,Chandigarh_Facility_to_Indore_Facility,1434.33
+Food,PROD007,4295.14,463,467,488530.08,Urban,1484,11,973,2,Local,279.82,Supplier_E,Chennai_Distribution,2,2993,30,434.92,Pass,1.32,Truck,Chennai_Distribution_to_Surat_Hub,1953.18
+Food,PROD008,598.39,622,344,80458.42,Rural,335,7,595,7,UPS,279.68,Supplier_A,Kanpur_WH,2,5810,24,416.32,Pass,1.95,Truck,Kanpur_WH_to_Jaipur_Hub,6483.8
+Food,PROD008,3716.81,246,309,494850.54,Urban,774,5,316,3,UPS,134.0,Supplier_B,Kolkata_Center,13,3253,15,847.54,Pass,0.97,Bike,Kolkata_Center_to_Delhi_DC,8684.41
+Food,PROD008,3125.04,906,344,201543.89,Urban,1945,14,739,2,DHL,320.05,Supplier_D,Ranchi_Distribution,7,2193,16,357.77,Pass,1.41,Bike,Ranchi_Distribution_to_Bangalore_Hub,8583.1
+Home,PROD009,804.19,918,209,459080.47,Rural,958,11,605,1,DHL,446.78,Supplier_B,Surat_Hub,14,1205,21,725.56,Pass,0.82,Truck,Surat_Hub_to_Indore_Facility,9739.7
+Home,PROD009,3562.15,721,267,71888.56,Rural,818,7,259,4,UPS,276.28,Supplier_C,Ahmedabad_DC,5,1747,19,974.81,Pass,1.71,Truck,Ahmedabad_DC_to_Delhi_DC,6780.42
+Home,PROD009,2841.02,243,341,232170.23,Mixed,515,10,191,3,FedEx,447.26,Supplier_D,Vadodara_Center,7,2155,13,613.72,Minor Issues,0.56,Van,Vadodara_Center_to_Bhopal_DC,6429.34
+Home,PROD009,1494.62,509,237,70414.93,Rural,684,12,744,7,Local,306.74,Supplier_E,Indore_Facility,1,9797,15,167.59,Pass,0.35,Truck,Indore_Facility_to_Bangalore_Hub,7473.46
+Home,PROD010,1516.79,118,289,446598.79,Urban,613,6,763,7,Local,186.84,Supplier_A,Jaipur_Hub,4,1869,16,598.82,Pass,1.65,Bike,Jaipur_Hub_to_Vadodara_Center,7083.68
+Home,PROD010,3970.95,328,297,455198.78,Rural,710,7,114,5,UPS,346.61,Supplier_B,Chandigarh_Facility,6,8199,17,250.99,Pass,1.5,Truck,Chandigarh_Facility_to_Bhopal_DC,8183.53
+Home,PROD010,3221.38,552,300,89786.76,Urban,1851,13,204,5,Local,137.25,Supplier_C,Pune_Facility,7,7536,25,377.74,Pass,0.27,Bike,Pune_Facility_to_Indore_Facility,6355.16
+Home,PROD010,4649.5,481,232,87963.56,Mixed,683,13,585,1,UPS,285.27,Supplier_D,Hyderabad_WH,14,7968,25,854.46,Pass,1.76,Van,Hyderabad_WH_to_Bhopal_DC,5458.81
+Books,PROD011,4842.23,728,269,56561.03,Mixed,216,5,965,5,FedEx,92.44,Supplier_A,Lucknow_Center,2,1761,17,616.74,Minor Issues,0.44,Van,Lucknow_Center_to_Surat_Hub,7909.88
+Books,PROD011,2789.6,742,136,93750.31,Mixed,371,9,432,5,DHL,204.27,Supplier_B,Kolkata_Center,10,9184,14,429.7,Minor Issues,0.58,Truck,Kolkata_Center_to_Ranchi_Distribution,6396.59
+Books,PROD011,1165.79,715,99,363839.48,Mixed,1620,8,304,6,UPS,140.31,Supplier_C,Mumbai_Warehouse,11,7388,30,511.31,Minor Issues,0.29,Van,Mumbai_Warehouse_to_Delhi_DC,3631.96
+Books,PROD012,2244.51,170,155,275049.35,Rural,1674,11,687,1,DHL,108.54,Supplier_A,Indore_Facility,6,9198,29,237.22,Minor Issues,0.89,Bike,Indore_Facility_to_Patna_WH,3533.7
+Books,PROD012,2212.77,566,89,446247.05,Mixed,1630,8,590,3,Local,468.38,Supplier_C,Delhi_DC,11,5030,23,909.37,Pass,0.88,Bike,Delhi_DC_to_Hyderabad_WH,2138.8
+Books,PROD012,4354.02,881,188,431972.04,Urban,653,1,183,1,UPS,308.46,Supplier_E,Amritsar_DC,6,2991,25,120.31,Pass,1.48,Truck,Amritsar_DC_to_Indore_Facility,1773.62
+Sports,PROD013,2438.53,442,469,120111.57,Rural,313,12,251,2,DHL,428.5,Supplier_A,Bangalore_Hub,9,3293,18,483.62,Pass,1.92,Bike,Bangalore_Hub_to_Nagpur_Distribution,8308.78
+Sports,PROD013,4266.01,402,119,158710.28,Urban,1280,13,550,2,Local,175.09,Supplier_B,Mumbai_Warehouse,1,4940,24,642.54,Minor Issues,0.2,Truck,Mumbai_Warehouse_to_Hyderabad_WH,8056.7
+Sports,PROD013,821.6,551,181,72962.51,Urban,987,13,616,4,DHL,160.45,Supplier_C,Mumbai_Warehouse,6,2652,21,397.2,Pass,1.69,Bike,Mumbai_Warehouse_to_Hyderabad_WH,4525.18
+Sports,PROD013,3491.05,357,283,260888.97,Rural,1495,10,306,4,Local,191.84,Supplier_E,Vadodara_Center,2,6881,16,469.55,Minor Issues,1.66,Bike,Vadodara_Center_to_Ranchi_Distribution,2238.13
+Toys,PROD014,4199.75,406,445,320433.53,Urban,1221,2,875,4,FedEx,450.47,Supplier_A,Chennai_Distribution,11,3891,25,992.49,Pass,1.68,Van,Chennai_Distribution_to_Hyderabad_WH,2277.41
+Toys,PROD014,881.2,125,276,124869.0,Rural,971,1,129,1,FedEx,178.95,Supplier_B,Bhopal_DC,2,6922,17,740.06,Pass,1.33,Bike,Bhopal_DC_to_Delhi_DC,2544.28
+Toys,PROD014,4529.63,209,134,336337.88,Mixed,204,10,279,1,Local,303.62,Supplier_D,Ahmedabad_DC,12,3846,17,606.23,Minor Issues,1.85,Truck,Ahmedabad_DC_to_Indore_Facility,2836.44
+Toys,PROD014,3767.71,531,184,262913.69,Mixed,1257,11,436,6,Local,354.05,Supplier_E,Ranchi_Distribution,1,1079,24,682.5,Minor Issues,0.25,Van,Ranchi_Distribution_to_Indore_Facility,7019.51
+Health,PROD015,1291.17,106,193,72064.1,Mixed,1370,4,730,3,UPS,225.61,Supplier_A,Delhi_DC,2,8451,10,527.17,Pass,1.02,Truck,Delhi_DC_to_Ranchi_Distribution,9216.33
+Health,PROD015,4186.2,679,251,217517.04,Mixed,1572,4,630,6,FedEx,78.57,Supplier_B,Indore_Facility,1,2825,28,756.37,Pass,1.84,Bike,Indore_Facility_to_Nagpur_Distribution,9150.66
+Health,PROD015,1448.95,966,341,343503.72,Mixed,1689,9,276,5,FedEx,300.44,Supplier_C,Bhopal_DC,12,1232,13,815.94,Pass,0.92,Truck,Bhopal_DC_to_Surat_Hub,3864.76
+Health,PROD015,2304.89,541,54,163982.97,Rural,540,13,105,4,UPS,155.66,Supplier_D,Jaipur_Hub,2,5313,18,533.83,Pass,1.54,Bike,Jaipur_Hub_to_Chennai_Distribution,7645.3

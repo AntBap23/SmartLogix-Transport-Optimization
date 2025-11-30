@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+
+# Environment variables
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Large data files (too big for GitHub - 100MB limit)
+# These files exceed GitHub's file size limit
+data/coherent/merged_transport_data.csv
+data/coherent/delhivery_cleaned.csv
+
+# Keep smaller files that are needed for the app
+# data/coherent/orders_cleaned.csv  # 3.5MB - OK
+# data/optimizer/optimizer_orders.csv  # 3.3MB - OK
+# data/optimizer/optimizer_distances.csv  # 32KB - OK
+
+# Streamlit
+.streamlit/
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+temp_*
+route_optimization_map.html
+route_optimization_chart.html
+

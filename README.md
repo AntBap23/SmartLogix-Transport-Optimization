@@ -1,38 +1,48 @@
-
 # 🚚 SmartLogix Transport Optimization
 
-SmartLogix is an intelligent routing and logistics optimization platform built with **Python**, **Databricks**, and **Streamlit**, leveraging **Google OR-Tools** for route solving and **machine learning models** for delay prediction. The platform is optimized for **Databricks** cloud computing environment with **Apache Spark** for big data processing.
+SmartLogix is an intelligent routing and logistics optimization platform built with **Python**, featuring a **greedy nearest-neighbor algorithm** for efficient route planning and **Streamlit** for interactive visualization. The platform optimizes delivery routes with vehicle capacity constraints and distance minimization, integrated with **Tableau** for advanced analytics.
 
 ---
 
 ## 🧠 Project Overview
 
-- **Goal**: Optimize last-mile delivery routes and proactively predict delays in transportation logistics.
-- **Optimization Engine**: Google OR-Tools with customizable constraints (e.g., time windows, capacity, delivery zones)
-- **Predictive Layer**: Machine learning models to forecast late deliveries
-- **Interface**: Streamlit dashboard for visualizing routing output and key logistics KPIs
+- **Goal**: Optimize last-mile delivery routes and minimize transportation costs
+- **Optimization Engine**: Greedy nearest-neighbor algorithm with vehicle capacity constraints (fast, reliable, production-ready)
+- **Interface**: Streamlit dashboard with interactive visualizations and Tableau integration
+- **Data Source**: CSV files for portability and easy deployment
+- **Visualization**: Interactive maps (Folium), charts (Plotly), and embedded Tableau dashboards
 
 ---
 
 ## 📁 Repository Structure
 
 ```
-
-smartlogix-transport-optimization/
+SmartLogix-Transport-Optimization/
 │
-├── data/              # Raw geospatial & delivery datasets (CSV/GeoJSON)
-├── db/                # SQL scripts for PostgreSQL schema and seed data
-├── notebooks/         # Jupyter notebooks for EDA, ML experiments, and forecasting
-├── src/               # Core Python modules for routing, modeling, and utilities
-├── tests/             # Unit tests for core logic and services
+├── app/                    # Core application modules
+│   ├── dashboard/         # Streamlit dashboard
+│   │   ├── app.py         # Main dashboard application
+│   │   ├── dashboard.png  # Tableau dashboard screenshot
+│   │   └── route_visuals/  # Route optimization visualizations
+│   ├── optimizer.py       # Route optimization engine
+│   └── visualize_routes.py # Visualization tools
 │
-├── .env               # Environment variables for DB credentials and config
-├── LICENSE            # License for open use
-├── README.md          # Project documentation
-├── docker-compose.yml # Orchestration of app + PostgreSQL container
-├── requirements.txt   # Python dependencies
-
-````
+├── data/                   # Data files
+│   ├── coherent/          # Processed data files
+│   ├── external/          # External data sources
+│   └── optimizer/         # Optimizer-specific data (CSV)
+│       ├── optimizer_orders.csv
+│       └── optimizer_distances.csv
+│
+├── postgresql/            # PostgreSQL configuration (optional)
+├── scripts/               # Utility scripts
+│   ├── generate_coherent_data.py
+│   └── verify_data_connections.py
+│
+├── generate_route_visuals.py  # Standalone route visualization generator
+├── requirements.txt       # Python dependencies
+└── README.md             # This file
+```
 
 ---
 
@@ -40,13 +50,28 @@ smartlogix-transport-optimization/
 
 | Component          | Stack/Tools                                      |
 |--------------------|--------------------------------------------------|
-| Optimization       | Python, Google OR-Tools                          |
-| Geospatial Routing | Custom distance matrix, time windows             |
-| Prediction Model   | scikit-learn, pandas, delay classification       |
-| Dashboard          | Streamlit for route/KPI visualization            |
-| Storage            | Databricks Delta Tables, Parquet files           |
-| Processing         | Apache Spark, PySpark for big data               |
-| Deployment         | Databricks Workspace                             |
+| Optimization       | Python, Greedy Nearest-Neighbor Algorithm        |
+| Route Planning     | Custom distance matrix, vehicle capacity constraints |
+| Dashboard          | Streamlit for interactive web interface          |
+| Visualization      | Folium for maps, Plotly for charts              |
+| Analytics          | Tableau for advanced analytics and reporting     |
+| Data Processing    | pandas, numpy for data manipulation             |
+| Data Storage       | CSV files (PostgreSQL optional)                  |
+
+---
+
+## 🚀 Deployment
+
+The app can be deployed to **Streamlit Cloud** (free) or other platforms. Some data files are too large for GitHub (>100MB limit), but the app works with the included smaller files.
+
+**Quick Deploy to Streamlit Cloud:**
+1. Push your code to GitHub (large files are excluded via `.gitignore`)
+2. Go to [share.streamlit.io](https://share.streamlit.io)
+3. Connect your GitHub repo
+4. Set main file: `app/dashboard/app.py`
+5. Deploy!
+
+For detailed deployment options (including handling large files), see [DEPLOYMENT.md](DEPLOYMENT.md).
 
 ---
 
@@ -57,127 +82,181 @@ smartlogix-transport-optimization/
 ```bash
 git clone https://github.com/AntBap23/SmartLogix-Transport-Optimization.git
 cd SmartLogix-Transport-Optimization
-````
+```
 
-### 2. Setup Databricks Environment
+### 2. Install Dependencies
 
-#### Option A: Databricks Workspace
-1. Create a new Databricks workspace
-2. Create a cluster with Python 3.9+ and Spark 3.4+
-3. Install required libraries from `requirements.txt`
-
-#### Option B: Local Development
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Load Data
+### 3. Prepare Data
 
-```bash
-# Load data into Databricks tables
-python db/load_data.py
-```
+The optimizer uses CSV files from `data/optimizer/`:
+- `optimizer_orders.csv` - Order data (order_id, source, destination, available_time, deadline, weight, order_size, material_id)
+- `optimizer_distances.csv` - Distance matrix (source, destination, distance_meters)
 
-This will:
-* Load CSV data into Databricks Delta tables
-* Process and clean the data using Spark
-* Create optimized parquet files for analysis
+These files should already be in the repository. If not, export them from your database using the SQL queries in `OPTIMIZER_SQL_QUERIES.sql`.
 
 ---
 
 ## ▶️ How to Use
 
-* Upload delivery data or use provided datasets from `data/`
-* Configure routing parameters (number of vehicles, time windows, capacity)
-* Run optimization algorithms using Databricks notebooks
-* Launch the Streamlit app and visualize:
-
-  * Optimized routes on a map
-  * KPIs like total route distance and predicted delays
-* Use the delay prediction module to flag high-risk deliveries
-* Leverage Spark for large-scale data processing and ML model training
-
----
-
-## 📊 Key Features
-
-* ✅ **Constraint-based Routing**: Distance minimization with support for:
-
-  * Time windows
-  * Vehicle capacity
-  * Zone-based delivery grouping
-* 🤖 **Delay Forecasting**:
-
-  * Predict delays based on historical delivery patterns
-  * Classify risk using custom-trained models
-* 📍 **Interactive Dashboard**:
-
-  * Visual route maps
-  * Fleet performance KPIs
-  * Delay likelihood indicators
-
----
-
-## 📈 Sample KPIs
-
-| Metric            | Description                              |
-| ----------------- | ---------------------------------------- |
-| Route Distance    | Total travel distance after optimization |
-| Stops per Vehicle | Efficiency of vehicle assignment         |
-| Delay Probability | Model-predicted risk of shipment delay   |
-| On-Time Rate      | % of deliveries predicted to be on-time  |
-
----
-
-## 🧪 Testing
-
-To run unit tests:
+### Launch Dashboard
 
 ```bash
-pytest tests/
+streamlit run app/dashboard/app.py
+```
+
+The dashboard will open at `http://localhost:8501` with four tabs:
+
+1. **📋 Project Overview** - Project description, objectives, and technologies
+2. **📊 Analytics Dashboard** - Tableau dashboard integration with embedded interactive visualizations
+3. **🔍 Findings & Insights** - Analysis insights, recommendations, and impact
+4. **🗺️ Route Optimization** - Route optimization visualizations (maps and charts)
+
+### Generate Route Visualizations
+
+To generate new route optimization visualizations:
+
+```bash
+python generate_route_visuals.py
+```
+
+This will:
+- Load orders and distances from CSV files
+- Run the greedy route optimization algorithm
+- Generate interactive HTML visualizations:
+  - `route_optimization_map.html` - Interactive map
+  - `route_optimization_chart.html` - Route statistics charts
+- Save files to `app/dashboard/route_visuals/` for display in the dashboard
+
+### Run Route Optimization Programmatically
+
+```python
+from app.optimizer import optimize_delivery_routes
+
+# Optimize routes
+results = optimize_delivery_routes(
+    num_vehicles=2,
+    limit=20,
+    max_orders=20,
+    max_locations=20,
+    use_ortools=False  # Use greedy algorithm
+)
+
+print(f'Status: {results.get("optimization_status")}')
+print(f'Total Distance: {results.get("total_distance_meters", 0) / 1000:.2f} km')
+print(f'Vehicles Used: {results.get("total_vehicles_used", 0)}')
 ```
 
 ---
 
-## 📓 Databricks Notebooks
+## 📊 Dashboard Features
 
-The project includes ready-to-use Databricks notebooks:
+### Analytics Dashboard Tab
+- **Tableau Integration**: Embedded interactive Tableau Public dashboard
+- **Static Screenshot**: Tableau dashboard image for quick reference
+- **Direct Link**: Access to full Tableau dashboard on Tableau Public
 
-* **`notebooks/01_data_loading.py`** - Load and process data into Delta tables
-* **`notebooks/02_route_optimization.py`** - Implement route optimization with OR-Tools
+### Route Optimization Tab
+- **Interactive Maps**: Folium-based route visualizations
+- **Route Charts**: Plotly charts showing route statistics
+- **Route Details**: Detailed breakdown of each vehicle route
+- **Export Options**: JSON export for further analysis
 
-### Running Notebooks in Databricks
+### Project Overview Tab
+- Complete project documentation
+- Technology stack overview
+- Objectives and goals
 
-1. Upload notebooks to your Databricks workspace
-2. Create a cluster with Python 3.9+ and Spark 3.4+
-3. Install required libraries from `requirements.txt`
-4. Upload data files to DBFS or use external storage
-5. Run notebooks sequentially for complete setup
-
-## 🔮 Future Roadmap
-
-* Add traffic-aware routing using OSRM or Google Maps API
-* Export routes in JSON/GeoJSON for external mapping tools
-* Support clustering-based delivery zoning
-* Add REST API to serve model predictions externally
-* Implement MLflow for model versioning and deployment
-* Add real-time streaming data processing
+### Findings & Insights Tab
+- Route optimization insights
+- Data analytics findings
+- Recommendations for improvement
+- Impact analysis
 
 ---
 
-## 🛡 License
+## 🔧 Configuration
 
-This project is released under the [MIT License](./LICENSE) for academic and portfolio use.
+### Environment Variables (Optional)
+
+If using PostgreSQL, create a `.env` file:
+
+```env
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+POSTGRES_DB=postgres
+POSTGRES_USER=your_username
+POSTGRES_PASSWORD=your_password
+POSTGRES_SCHEMA=transport_data
+```
+
+**Note**: The dashboard works with CSV files and doesn't require a database connection.
+
+---
+
+## 📦 Dependencies
+
+Key dependencies (see `requirements.txt` for full list):
+- `streamlit` - Web dashboard framework
+- `pandas` - Data manipulation
+- `numpy` - Numerical operations
+- `folium` - Interactive maps
+- `plotly` - Interactive charts
+- `psycopg2-binary` - PostgreSQL connector (optional)
+
+---
+
+## 🎯 Key Features
+
+- ✅ **Greedy Route Optimization** - Fast, reliable nearest-neighbor algorithm
+- ✅ **Interactive Dashboard** - Streamlit-based web interface
+- ✅ **Tableau Integration** - Embedded Tableau Public dashboards
+- ✅ **CSV-Based** - No database required for core functionality
+- ✅ **Route Visualization** - Interactive maps and charts
+- ✅ **Multi-Vehicle Routing** - Optimize routes for multiple vehicles
+- ✅ **Capacity Constraints** - Respect vehicle weight limits
+- ✅ **Distance Minimization** - Optimize total travel distance
+
+---
+
+## 📈 Project Status
+
+- ✅ Route optimization algorithm implemented
+- ✅ Streamlit dashboard functional
+- ✅ Tableau dashboard integrated
+- ✅ CSV data loading working
+- ✅ Route visualizations generated
+- ⚠️ OR-Tools integration (optional, may have compatibility issues)
+
+---
+
+## 🤝 Contributing
+
+This is a portfolio project. For questions or suggestions, please open an issue.
+
+---
+
+## 📄 License
+
+See `LICENSE` file for details.
+
+---
+
+## 🔗 Links
+
+- **Tableau Dashboard**: [View on Tableau Public](https://public.tableau.com/views/SupplyChainDashboard_17645140839010/Dashboard1?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
+- **GitHub Repository**: [SmartLogix-Transport-Optimization](https://github.com/AntBap23/SmartLogix-Transport-Optimization)
 
 ---
 
 ## 👤 Author
 
-**Anthony Baptiste**
-[LinkedIn](https://www.linkedin.com/in/anthony-baptiste00)
-[Portfolio](https://antbap23.github.io/portfolio)
+**Anthony Bapst**
+- GitHub: [@AntBap23](https://github.com/AntBap23)
 
+---
 
-
-
-
+*Built with ❤️ for efficient logistics and route optimization*
