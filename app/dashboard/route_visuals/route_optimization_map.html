@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_fb52ea92c07d4828a45e9f476133e8b8 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+        <div style="position: fixed; 
+                    bottom: 50px; left: 50px; width: 200px; height: auto; 
+                    background-color: white; z-index:9999; font-size:14px;
+                    border:2px solid grey; padding: 10px">
+        <h4>Route Legend</h4>
+        <p><i class="fa fa-home" style="color:green"></i> Depot/Start</p>
+        <p><i class="fa fa-truck" style="color:blue"></i> Delivery Stop</p>
+        <p><i class="fa fa-flag" style="color:red"></i> Route End</p>
+        </div>
+        
+    
+            <div class="folium-map" id="map_fb52ea92c07d4828a45e9f476133e8b8" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_fb52ea92c07d4828a45e9f476133e8b8 = L.map(
+                "map_fb52ea92c07d4828a45e9f476133e8b8",
+                {
+                    center: [17.385, 78.4867],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 6,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_4be5d1e4c5fd4b10077c9cced16482bb = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_4be5d1e4c5fd4b10077c9cced16482bb.addTo(map_fb52ea92c07d4828a45e9f476133e8b8);
+        
+    
+            var poly_line_5f2aa46bd676361041bb73a9f5387abc = L.polyline(
+                [[17.385, 78.4867], [21.1458, 79.0882], [19.076, 72.8777], [13.0827, 80.2707], [23.3441, 85.3096], [26.9124, 75.7873], [18.5204, 73.8567], [26.4499, 80.3319], [22.3072, 73.1812], [23.0225, 72.5714], [12.9716, 77.5946], [26.8467, 80.9462], [25.5941, 85.1376], [22.5726, 88.3639], [17.385, 78.4867]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_fb52ea92c07d4828a45e9f476133e8b8);
+        
+    
+        var popup_f6a9fce499fc32807404f3cba0a7d69c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7fdf408cd26a01fdea7e59c5ecb1d00d = $(`<div id="html_7fdf408cd26a01fdea7e59c5ecb1d00d" style="width: 100.0%; height: 100.0%;">Vehicle 0: 15 stops, 5051.0km</div>`)[0];
+                popup_f6a9fce499fc32807404f3cba0a7d69c.setContent(html_7fdf408cd26a01fdea7e59c5ecb1d00d);
+            
+        
+
+        poly_line_5f2aa46bd676361041bb73a9f5387abc.bindPopup(popup_f6a9fce499fc32807404f3cba0a7d69c)
+        ;
+
+        
+    
+    
+            var marker_84aa270eef9a7a41ed4419bacc83255d = L.marker(
+                [17.385, 78.4867],
+                {
+}
+            ).addTo(map_fb52ea92c07d4828a45e9f476133e8b8);
+        
+    
+            var icon_4afa428e64b0f09c7bcfcf8307093cba = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "home",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_fc05038fd7cefdf4564c210499929900 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_36c698a49546099a6fa9e9aa4a5f3ed6 = $(`<div id="html_36c698a49546099a6fa9e9aa4a5f3ed6" style="width: 100.0%; height: 100.0%;"><b>Depot</b><br>Hyderabad_WH<br>Vehicle 0</div>`)[0];
+                popup_fc05038fd7cefdf4564c210499929900.setContent(html_36c698a49546099a6fa9e9aa4a5f3ed6);
+            
+        
+
+        marker_84aa270eef9a7a41ed4419bacc83255d.bindPopup(popup_fc05038fd7cefdf4564c210499929900)
+        ;
+
+        
+    
+    
+            marker_84aa270eef9a7a41ed4419bacc83255d.bindTooltip(
+                `<div>
+                     Hyderabad_WH (Vehicle 0)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_84aa270eef9a7a41ed4419bacc83255d.setIcon(icon_4afa428e64b0f09c7bcfcf8307093cba);
+            
+    
+            var marker_f31618ce16c66668ba9bb452ff9e1536 = L.marker(
+                [21.1458, 79.0882],
+                {
+}
+            ).addTo(map_fb52ea92c07d4828a45e9f476133e8b8);
+        
+    
+            var icon_1788eb619102995ba65b8d4147a19598 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "truck",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_b6491c6a5ffbb58fec635f2f9f0fffbd = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_25b513ba81d4f20959cb2fb977aa65a2 = $(`<div id="html_25b513ba81d4f20959cb2fb977aa65a2" style="width: 100.0%; height: 100.0%;"><b>Stop 1</b><br>Nagpur_Distribution<br>Orders: 2</div>`)[0];
+                popup_b6491c6a5ffbb58fec635f2f9f0fffbd.setContent(html_25b513ba81d4f20959cb2fb977aa65a2);
+            
+        
+
+        marker_f31618ce16c66668ba9bb452ff9e1536.bindPopup(popup_b6491c6a5ffbb58fec635f2f9f0fffbd)
+        ;
+
+        
+    
+    
+            marker_f31618ce16c66668ba9bb452ff9e1536.bindTooltip(
+                `<div>
+                     Nagpur_Distribution (Vehicle 0)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_f31618ce16c66668ba9bb452ff9e1536.setIcon(icon_1788eb619102995ba65b8d4147a19598);
+            
+    
+            var marker_3bc1bc4afd01a68bd387f6c3aa9b4088 = L.marker(
+                [19.076, 72.8777],
+                {
+}
+            ).addTo(map_fb52ea92c07d4828a45e9f476133e8b8);
+        
+    
+            var icon_c9ee62d5ba7cab73745a4940668e05a6 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "truck",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_6f6dd1d7a12172c9644070c31b23b123 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ecc5702f3a040b348a229b5f2f494878 = $(`<div id="html_ecc5702f3a040b348a229b5f2f494878" style="width: 100.0%; height: 100.0%;"><b>Stop 2</b><br>Mumbai_Warehouse<br>Orders: 1</div>`)[0];
+                popup_6f6dd1d7a12172c9644070c31b23b123.setContent(html_ecc5702f3a040b348a229b5f2f494878);
+            
+        
+
+        marker_3bc1bc4afd01a68bd387f6c3aa9b4088.bindPopup(popup_6f6dd1d7a12172c9644070c31b23b123)
+        ;
+
+        
+    
+    
+            marker_3bc1bc4afd01a68bd387f6c3aa9b4088.bindTooltip(
+                `<div>
+                     Mumbai_Warehouse (Vehicle 0)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_3bc1bc4afd01a68bd387f6c3aa9b4088.setIcon(icon_c9ee62d5ba7cab73745a4940668e05a6);
+            
+    
+            var marker_0474c97268128bc7dbe35c77e3822150 = L.marker(
+                [13.0827, 80.2707],
+                {
+}
+            ).addTo(map_fb52ea92c07d4828a45e9f476133e8b8);
+        
+    
+            var icon_372ef267696a210686d4914b20294e34 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "truck",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_0c6682ad06fd54dfd266c5b756c3b416 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_fd37c648db0bbf5483f2bb08fc6ec838 = $(`<div id="html_fd37c648db0bbf5483f2bb08fc6ec838" style="width: 100.0%; height: 100.0%;"><b>Stop 3</b><br>Chennai_Distribution<br>Orders: 3</div>`)[0];
+                popup_0c6682ad06fd54dfd266c5b756c3b416.setContent(html_fd37c648db0bbf5483f2bb08fc6ec838);
+            
+        
+
+        marker_0474c97268128bc7dbe35c77e3822150.bindPopup(popup_0c6682ad06fd54dfd266c5b756c3b416)
+        ;
+
+        
+    
+    
+            marker_0474c97268128bc7dbe35c77e3822150.bindTooltip(
+                `<div>
+                     Chennai_Distribution (Vehicle 0)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_0474c97268128bc7dbe35c77e3822150.setIcon(icon_372ef267696a210686d4914b20294e34);
+            
+    
+            var marker_93cc4bbae281ed41524e4decd3651528 = L.marker(
+                [23.3441, 85.3096],
+                {
+}
+            ).addTo(map_fb52ea92c07d4828a45e9f476133e8b8);
+        
+    
+            var icon_78d6544aa08f6e5285f8cd26d2fe03e4 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "truck",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c31550440505f0b31540277f5b98c23d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_d33ad387efdd9604fb0ef93d8013fe67 = $(`<div id="html_d33ad387efdd9604fb0ef93d8013fe67" style="width: 100.0%; height: 100.0%;"><b>Stop 4</b><br>Ranchi_Distribution<br>Orders: 3</div>`)[0];
+                popup_c31550440505f0b31540277f5b98c23d.setContent(html_d33ad387efdd9604fb0ef93d8013fe67);
+            
+        
+
+        marker_93cc4bbae281ed41524e4decd3651528.bindPopup(popup_c31550440505f0b31540277f5b98c23d)
+        ;
+
+        
+    
+    
+            marker_93cc4bbae281ed41524e4decd3651528.bindTooltip(
+                `<div>
+                     Ranchi_Distribution (Vehicle 0)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_93cc4bbae281ed41524e4decd3651528.setIcon(icon_78d6544aa08f6e5285f8cd26d2fe03e4);
+            
+    
+            var marker_2db878ffc2e13208920546a76d1d3191 = L.marker(
+                [26.9124, 75.7873],
+                {
+}
+            ).addTo(map_fb52ea92c07d4828a45e9f476133e8b8);
+        
+    
+            var icon_558332d184d6a541d59f0d749d014fde = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "truck",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_adf24bf49ba2700bba98fa14a6a0396e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_5b172e7e4da0e7013a617c8b12d94296 = $(`<div id="html_5b172e7e4da0e7013a617c8b12d94296" style="width: 100.0%; height: 100.0%;"><b>Stop 5</b><br>Jaipur_Hub<br>Orders: 1</div>`)[0];
+                popup_adf24bf49ba2700bba98fa14a6a0396e.setContent(html_5b172e7e4da0e7013a617c8b12d94296);
+            
+        
+
+        marker_2db878ffc2e13208920546a76d1d3191.bindPopup(popup_adf24bf49ba2700bba98fa14a6a0396e)
+        ;
+
+        
+    
+    
+            marker_2db878ffc2e13208920546a76d1d3191.bindTooltip(
+                `<div>
+                     Jaipur_Hub (Vehicle 0)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_2db878ffc2e13208920546a76d1d3191.setIcon(icon_558332d184d6a541d59f0d749d014fde);
+            
+    
+            var marker_9d9cd5026187cdf74cc771030fcbdad8 = L.marker(
+                [18.5204, 73.8567],
+                {
+}
+            ).addTo(map_fb52ea92c07d4828a45e9f476133e8b8);
+        
+    
+            var icon_4802c60e4290a8c0b4f2b3e7eb61a8e2 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "truck",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_3a8d172bfcc1ffb7cf01ea088478e22e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_32baa9505780c64657d9cb29500014cb = $(`<div id="html_32baa9505780c64657d9cb29500014cb" style="width: 100.0%; height: 100.0%;"><b>Stop 6</b><br>Pune_Facility<br>Orders: 2</div>`)[0];
+                popup_3a8d172bfcc1ffb7cf01ea088478e22e.setContent(html_32baa9505780c64657d9cb29500014cb);
+            
+        
+
+        marker_9d9cd5026187cdf74cc771030fcbdad8.bindPopup(popup_3a8d172bfcc1ffb7cf01ea088478e22e)
+        ;
+
+        
+    
+    
+            marker_9d9cd5026187cdf74cc771030fcbdad8.bindTooltip(
+                `<div>
+                     Pune_Facility (Vehicle 0)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_9d9cd5026187cdf74cc771030fcbdad8.setIcon(icon_4802c60e4290a8c0b4f2b3e7eb61a8e2);
+            
+    
+            var marker_45ea045f45dc70b69bf92758f846d11e = L.marker(
+                [26.4499, 80.3319],
+                {
+}
+            ).addTo(map_fb52ea92c07d4828a45e9f476133e8b8);
+        
+    
+            var icon_84420465b2d3d1579e2f458c2d7a584d = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "truck",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_14d9d16303462d11251b4134e73ea5a9 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_b2240cef0ea91ccfbf987a6b39af2ab0 = $(`<div id="html_b2240cef0ea91ccfbf987a6b39af2ab0" style="width: 100.0%; height: 100.0%;"><b>Stop 7</b><br>Kanpur_WH<br>Orders: 1</div>`)[0];
+                popup_14d9d16303462d11251b4134e73ea5a9.setContent(html_b2240cef0ea91ccfbf987a6b39af2ab0);
+            
+        
+
+        marker_45ea045f45dc70b69bf92758f846d11e.bindPopup(popup_14d9d16303462d11251b4134e73ea5a9)
+        ;
+
+        
+    
+    
+            marker_45ea045f45dc70b69bf92758f846d11e.bindTooltip(
+                `<div>
+                     Kanpur_WH (Vehicle 0)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_45ea045f45dc70b69bf92758f846d11e.setIcon(icon_84420465b2d3d1579e2f458c2d7a584d);
+            
+    
+            var marker_5f5a04fc7d000a7050dbdc95eeb43b24 = L.marker(
+                [22.3072, 73.1812],
+                {
+}
+            ).addTo(map_fb52ea92c07d4828a45e9f476133e8b8);
+        
+    
+            var icon_b1d5b339fe202783cbf8da67313637fc = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "truck",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_64fa14119a939f5864a20f11de36e00e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ba41b29d0bc045ef1ac66331d10350f9 = $(`<div id="html_ba41b29d0bc045ef1ac66331d10350f9" style="width: 100.0%; height: 100.0%;"><b>Stop 8</b><br>Vadodara_Center<br>Orders: 1</div>`)[0];
+                popup_64fa14119a939f5864a20f11de36e00e.setContent(html_ba41b29d0bc045ef1ac66331d10350f9);
+            
+        
+
+        marker_5f5a04fc7d000a7050dbdc95eeb43b24.bindPopup(popup_64fa14119a939f5864a20f11de36e00e)
+        ;
+
+        
+    
+    
+            marker_5f5a04fc7d000a7050dbdc95eeb43b24.bindTooltip(
+                `<div>
+                     Vadodara_Center (Vehicle 0)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_5f5a04fc7d000a7050dbdc95eeb43b24.setIcon(icon_b1d5b339fe202783cbf8da67313637fc);
+            
+    
+            var marker_af42642ef65e283899421d82191e0198 = L.marker(
+                [23.0225, 72.5714],
+                {
+}
+            ).addTo(map_fb52ea92c07d4828a45e9f476133e8b8);
+        
+    
+            var icon_5e56842762caaa21e9b0feaa6f3ad884 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "truck",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_3bfd79c15811065d8b667bceb5c29db3 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_656da9f3edc25de572920e1d5145fc67 = $(`<div id="html_656da9f3edc25de572920e1d5145fc67" style="width: 100.0%; height: 100.0%;"><b>Stop 9</b><br>Ahmedabad_DC<br>Orders: 1</div>`)[0];
+                popup_3bfd79c15811065d8b667bceb5c29db3.setContent(html_656da9f3edc25de572920e1d5145fc67);
+            
+        
+
+        marker_af42642ef65e283899421d82191e0198.bindPopup(popup_3bfd79c15811065d8b667bceb5c29db3)
+        ;
+
+        
+    
+    
+            marker_af42642ef65e283899421d82191e0198.bindTooltip(
+                `<div>
+                     Ahmedabad_DC (Vehicle 0)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_af42642ef65e283899421d82191e0198.setIcon(icon_5e56842762caaa21e9b0feaa6f3ad884);
+            
+    
+            var marker_163616270078a8e4ed119c5260f2a22b = L.marker(
+                [12.9716, 77.5946],
+                {
+}
+            ).addTo(map_fb52ea92c07d4828a45e9f476133e8b8);
+        
+    
+            var icon_7f2b2dc60a03e01a9c450f79071d7d6e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "truck",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_e5065e62d1ca8920ccb2a940d616d78d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_bf2225da2623c3235a50d18a8ba9b847 = $(`<div id="html_bf2225da2623c3235a50d18a8ba9b847" style="width: 100.0%; height: 100.0%;"><b>Stop 10</b><br>Bangalore_Hub<br>Orders: 1</div>`)[0];
+                popup_e5065e62d1ca8920ccb2a940d616d78d.setContent(html_bf2225da2623c3235a50d18a8ba9b847);
+            
+        
+
+        marker_163616270078a8e4ed119c5260f2a22b.bindPopup(popup_e5065e62d1ca8920ccb2a940d616d78d)
+        ;
+
+        
+    
+    
+            marker_163616270078a8e4ed119c5260f2a22b.bindTooltip(
+                `<div>
+                     Bangalore_Hub (Vehicle 0)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_163616270078a8e4ed119c5260f2a22b.setIcon(icon_7f2b2dc60a03e01a9c450f79071d7d6e);
+            
+    
+            var marker_8c75cb19987281e964b0d1c1b044dadb = L.marker(
+                [26.8467, 80.9462],
+                {
+}
+            ).addTo(map_fb52ea92c07d4828a45e9f476133e8b8);
+        
+    
+            var icon_b0235fde9ed525a2d89a367301f39e3c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "truck",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_602aa37a42ede1b91a83b894ae62b325 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_60aa59b5e54049814cca2bf2cd7051ce = $(`<div id="html_60aa59b5e54049814cca2bf2cd7051ce" style="width: 100.0%; height: 100.0%;"><b>Stop 11</b><br>Lucknow_Center<br>Orders: 1</div>`)[0];
+                popup_602aa37a42ede1b91a83b894ae62b325.setContent(html_60aa59b5e54049814cca2bf2cd7051ce);
+            
+        
+
+        marker_8c75cb19987281e964b0d1c1b044dadb.bindPopup(popup_602aa37a42ede1b91a83b894ae62b325)
+        ;
+
+        
+    
+    
+            marker_8c75cb19987281e964b0d1c1b044dadb.bindTooltip(
+                `<div>
+                     Lucknow_Center (Vehicle 0)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_8c75cb19987281e964b0d1c1b044dadb.setIcon(icon_b0235fde9ed525a2d89a367301f39e3c);
+            
+    
+            var marker_66626aaa404aea69471679792cdcd5ce = L.marker(
+                [25.5941, 85.1376],
+                {
+}
+            ).addTo(map_fb52ea92c07d4828a45e9f476133e8b8);
+        
+    
+            var icon_13ff458898399febc678cae372c5ce48 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "truck",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_afb00bfb9b31e9781080ff0f216c8d7c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_55a37faeb70f9c3ea8b10916fa77378e = $(`<div id="html_55a37faeb70f9c3ea8b10916fa77378e" style="width: 100.0%; height: 100.0%;"><b>Stop 12</b><br>Patna_WH<br>Orders: 1</div>`)[0];
+                popup_afb00bfb9b31e9781080ff0f216c8d7c.setContent(html_55a37faeb70f9c3ea8b10916fa77378e);
+            
+        
+
+        marker_66626aaa404aea69471679792cdcd5ce.bindPopup(popup_afb00bfb9b31e9781080ff0f216c8d7c)
+        ;
+
+        
+    
+    
+            marker_66626aaa404aea69471679792cdcd5ce.bindTooltip(
+                `<div>
+                     Patna_WH (Vehicle 0)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_66626aaa404aea69471679792cdcd5ce.setIcon(icon_13ff458898399febc678cae372c5ce48);
+            
+    
+            var marker_3d4816c71d50de69a655e7e36ca341e9 = L.marker(
+                [22.5726, 88.3639],
+                {
+}
+            ).addTo(map_fb52ea92c07d4828a45e9f476133e8b8);
+        
+    
+            var icon_4121cc12899b1f83f2c5f0dd328add52 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "truck",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_b8ebdc588069ff86c2d6da514be77847 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_cac097244d85a01fa8c9bc84fef1d87c = $(`<div id="html_cac097244d85a01fa8c9bc84fef1d87c" style="width: 100.0%; height: 100.0%;"><b>Stop 13</b><br>Kolkata_Center<br>Orders: 1</div>`)[0];
+                popup_b8ebdc588069ff86c2d6da514be77847.setContent(html_cac097244d85a01fa8c9bc84fef1d87c);
+            
+        
+
+        marker_3d4816c71d50de69a655e7e36ca341e9.bindPopup(popup_b8ebdc588069ff86c2d6da514be77847)
+        ;
+
+        
+    
+    
+            marker_3d4816c71d50de69a655e7e36ca341e9.bindTooltip(
+                `<div>
+                     Kolkata_Center (Vehicle 0)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_3d4816c71d50de69a655e7e36ca341e9.setIcon(icon_4121cc12899b1f83f2c5f0dd328add52);
+            
+    
+            var marker_a893763688cf69c0b1b89bfe5054b11b = L.marker(
+                [17.385, 78.4867],
+                {
+}
+            ).addTo(map_fb52ea92c07d4828a45e9f476133e8b8);
+        
+    
+            var icon_d2c070832cf758ddb90a3c3809709e65 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "flag",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_357583f692a2d46bbdeed386e08ad003 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e1a91417c7541e730f9e303cb8b9e362 = $(`<div id="html_e1a91417c7541e730f9e303cb8b9e362" style="width: 100.0%; height: 100.0%;"><b>End</b><br>Hyderabad_WH<br>Vehicle 0</div>`)[0];
+                popup_357583f692a2d46bbdeed386e08ad003.setContent(html_e1a91417c7541e730f9e303cb8b9e362);
+            
+        
+
+        marker_a893763688cf69c0b1b89bfe5054b11b.bindPopup(popup_357583f692a2d46bbdeed386e08ad003)
+        ;
+
+        
+    
+    
+            marker_a893763688cf69c0b1b89bfe5054b11b.bindTooltip(
+                `<div>
+                     Hyderabad_WH (Vehicle 0)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a893763688cf69c0b1b89bfe5054b11b.setIcon(icon_d2c070832cf758ddb90a3c3809709e65);
+            
+</script>
+</html>
